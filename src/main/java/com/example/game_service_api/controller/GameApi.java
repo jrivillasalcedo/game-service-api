@@ -10,7 +10,7 @@ public interface GameApi {
     @PostMapping
     ResponseEntity<Game> createGame(@RequestBody Game game);
     @GetMapping("/{id}")
-    ResponseEntity<Game> getGame(@RequestBody String id);
+    ResponseEntity<Game> getGame(@PathVariable String id);
     @PutMapping("/{id}")
     ResponseEntity<Game> updateGame(@PathVariable String id, @RequestBody Game game);
     @DeleteMapping("/{id}")
