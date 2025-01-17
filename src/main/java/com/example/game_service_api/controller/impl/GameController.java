@@ -17,7 +17,7 @@ public class GameController implements GameApi {
         this.gameService = gameService;
     }
     @Override
-    public ResponseEntity<Game> createGame(@RequestBody Game game) {
+    public ResponseEntity<Game> createGame(Game game) {
         var gameCreated = this.gameService.createGame(game);
         return ResponseEntity.ok(gameCreated);
     }
@@ -28,7 +28,7 @@ public class GameController implements GameApi {
     }
 
     @Override
-    public ResponseEntity<Game> updateGame(String id, @RequestBody Game updatedGame) {
+    public ResponseEntity<Game> updateGame(String id, Game updatedGame) {
         var gameUpdated = this.gameService.updateGame(id, updatedGame);
         return ResponseEntity.ok(gameUpdated);
     }

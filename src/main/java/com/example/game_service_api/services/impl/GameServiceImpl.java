@@ -7,6 +7,8 @@ import com.example.game_service_api.services.GameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
@@ -17,29 +19,28 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Game createGame(Game gameRequest) {
-        Game gameCreatedInDataBase = this.gameRepository.save(gameRequest);
-        return gameCreatedInDataBase;
+        return  this.gameRepository.save(gameRequest);
     }
 
     @Override
     public Game getGame(String id) {
-        return this.gameRepository.findById(Long.valueOf(id))
+        return gameRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new GameException(HttpStatus.NOT_FOUND, "Error finding game"));
     }
 
     @Override
     public Game updateGame(String id, Game updatedGame) {
-        Game existingGame = this.gameRepository.findById(Long.valueOf(id))
+        return Optional.of(updatedGame)
+                .map(game -> {
+                    game.setId(Long.valueOf(id));
+                    return gameRepository.save(game);
+                })
                 .orElseThrow(() -> new GameException(HttpStatus.NOT_FOUND, "Game not found for update"));
-        existingGame.setName(updatedGame.getName());
-        return this.gameRepository.save(existingGame);
     }
 
     @Override
     public void deleteGame(String id) {
-        if (!this.gameRepository.existsById(Long.valueOf(id))) {
-            throw new GameException(HttpStatus.NOT_FOUND, "Game not found for deletion");
-        }
-        this.gameRepository.deleteById(Long.valueOf(id));
+
+        gameRepository.deleteById(Long.valueOf(id));
     }
 }
