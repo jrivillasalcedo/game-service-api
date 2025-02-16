@@ -17,11 +17,10 @@ public class GameController implements GameApi {
         this.gameService = gameService;
     }
     @Override
-    public ResponseEntity<Game> createGame(Game game) {
-        var gameCreated = this.gameService.createGame(game);
+    public ResponseEntity<Game> createGame(String userId, Game game) {
+        var gameCreated = this.gameService.createGame(userId, game);
         return ResponseEntity.ok(gameCreated);
     }
-
     @Override
     public ResponseEntity<Game> getGame(String id) {
         return ResponseEntity.ok(this.gameService.getGame(id));
